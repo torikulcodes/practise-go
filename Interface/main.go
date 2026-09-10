@@ -2,31 +2,27 @@ package main
 
 import "fmt"
 
-type Animal interface{
-	speak()
+// 1. Define the interface contract
+type Greeter interface {
+    Greet() string
 }
 
-type Dog struct {
+// 2. Implement the method on a concrete type (Struct)
+type Person struct {
+    Name string
 }
 
-type Cat struct {
+// Person implicitly implements Greeter because it has the Greet() method
+func (p Person) Greet() string {
+    return "Hello, my name is " + p.Name
 }
 
-
-func(d Dog) speak(){
-	fmt.Println("woof woof")
-}
-
-func makeSound(d Animal){
-	d.speak()
-}
-
-func makeSound2 (c Animal){
-
+// 3. Consume the interface
+func SayHello(g Greeter) {
+    fmt.Println(g.Greet())
 }
 
 func main() {
-	dexter := Dog{}
-
-	makeSound(&dexter)
+    p := Person{Name: "Alice"}
+    SayHello(p) // Works perfectly!
 }
