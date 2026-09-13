@@ -2,31 +2,43 @@ package main
 
 import (
 	"fmt"
+	"sync"
 	"time"
 )
 
+var wg sync.WaitGroup
+
+var fileUrl string
+
 func main() {
 	var start = time.Now()
-	uploadFile()
-	saveToDb()
-	sendEmail()
+
+	wg.Go(uploadFile)
+	wg.Go(saveToDb)
+	wg.Go(sendEmail)
+	wg.Wait()
+
+	fmt.Println("url",fileUrl)
+
 	fmt.Println("time taken", time.Since(start))
 }
 
-
-func uploadFile() {
+func uploadFile()  {
 	fmt.Println("uploading file...")
 	time.Sleep(3 * time.Second)
 	fmt.Println("File upload done ")
-}
 
+	 fileUrl  = "https///pro.com"
+
+
+}
 
 func saveToDb() {
 	fmt.Println("save db file...")
 	time.Sleep(1 * time.Second)
 	fmt.Println("File save done ")
-}
 
+}
 
 func sendEmail() {
 	fmt.Println("sending email")
